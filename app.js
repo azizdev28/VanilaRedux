@@ -3,7 +3,6 @@ const todoInput = document.getElementById("todoInput");
 const todoList = document.getElementById("todoList");
 const searchInput = document.getElementById("searchInput");
 
-// Todo qo'shish uchun funksiya
 const addTodo = () => {
   const text = todoInput.value.trim();
   if (text !== "") {
@@ -12,17 +11,14 @@ const addTodo = () => {
   }
 };
 
-// Todo o'chirish uchun funksiya
 const deleteTodo = (index) => {
   store.dispatch(deleteTodoAction(index));
 };
 
-// Todo tahrirlash uchun funksiya
 const editTodo = (index, newText) => {
   store.dispatch(editTodoAction(index, newText));
 };
 
-// Todo ro'yxatini yangilash uchun funksiya
 const render = (todos) => {
   todoList.innerHTML = "";
   todos.forEach((todo, index) => {
@@ -32,14 +28,12 @@ const render = (todos) => {
       li.style.textDecoration = "line-through";
     }
 
-    // Delete button
     const deleteButton = document.createElement("button");
     deleteButton.classList.add("deleteBtn");
     deleteButton.textContent = "Delete";
     deleteButton.onclick = () => deleteTodo(index);
     li.appendChild(deleteButton);
 
-    // Edit button
     const editButton = document.createElement("button");
     editButton.classList.add("editBtn");
     editButton.textContent = "Edit";
@@ -51,7 +45,6 @@ const render = (todos) => {
     };
     li.appendChild(editButton);
 
-    // Done button
     const doneButton = document.createElement("button");
     doneButton.classList.add("doneBtn");
     doneButton.textContent = "Done";
@@ -61,22 +54,18 @@ const render = (todos) => {
   });
 };
 
-// Function to handle search
 const searchTodos = () => {
-  const searchText = searchInput.value.trim().toLowerCase(); // Get the search input value
+  const searchText = searchInput.value.trim().toLowerCase();
   const filteredTodos = store
     .getState()
-    .filter((todo) => todo.text.toLowerCase().includes(searchText)); // Filter todos based on search text
-  render(filteredTodos); // Render the filtered todos
+    .filter((todo) => todo.text.toLowerCase().includes(searchText));
+  render(filteredTodos);
 };
 
-// Add event listener to search input field
 searchInput.addEventListener("input", searchTodos);
 
-// Initial render
 render(store.getState());
 
-// Redux store'dagi o'zgarishlarni eshitish
 store.subscribe(() => {
   const searchText = searchInput.value.trim().toLowerCase();
   const todos = store.getState();
@@ -86,7 +75,6 @@ store.subscribe(() => {
   render(filteredTodos);
 });
 
-// Boshlang'ich ekranga chiqarish
 render(store.getState());
 
 // Todo toggling action

@@ -7,7 +7,7 @@ const createStore = (reducer) => {
   const dispatch = (action) => {
     state = reducer(state, action);
     listeners.forEach((listener) => listener());
-    localStorage.setItem("todos", JSON.stringify(state)); // Save state to local storage
+    localStorage.setItem("todos", JSON.stringify(state));
   };
 
   const subscribe = (listener) => {
@@ -17,24 +17,21 @@ const createStore = (reducer) => {
     };
   };
 
-  // Retrieve todos data from local storage when the store is created
   const storedTodos = localStorage.getItem("todos");
   if (storedTodos) {
     state = JSON.parse(storedTodos);
   } else {
-    dispatch({}); // Initialize state
+    dispatch({});
   }
 
   return { getState, dispatch, subscribe };
 };
 
-// Action types
 const ADD_TODO = "ADD_TODO";
 const DELETE_TODO = "DELETE_TODO";
 const EDIT_TODO = "EDIT_TODO";
 const TOGGLE_TODO = "TOGGLE_TODO";
 
-// Action creators
 const addTodoAction = (text, username) => ({
   type: ADD_TODO,
   text,
@@ -57,7 +54,6 @@ const toggleTodoAction = (index) => ({
   index,
 });
 
-// Reducer function
 const todosReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_TODO:
@@ -80,5 +76,4 @@ const todosReducer = (state = [], action) => {
   }
 };
 
-// Create Redux store
 const store = createStore(todosReducer);
